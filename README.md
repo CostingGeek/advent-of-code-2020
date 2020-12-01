@@ -3,7 +3,7 @@
 
 I chose **PHP** as this is the language I have most experience with. The code runs in [PHP Sandbox](https://sandbox.onlinephpfunctions.com/)
 
-# PHP Solutions
+## PHP Solutions
 
 Day | Part One | Part Two
 -----|-----|-----
