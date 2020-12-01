@@ -41,6 +41,6 @@ for( $i = count($data_table) - 1; $i > 0; $i--)
     }
 }
 
-echo $data_table[$i] . ' / ' . $data_table[$j] . ' / ' . $data_table[$k] . ' = ';
+echo $data_table[$i] . ' * ' . $data_table[$j] . ' * ' . $data_table[$k] . ' = ';
 echo $data_table[$i] * $data_table[$j] * $data_table[$k] . "\n";
 ?>
