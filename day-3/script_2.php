@@ -68,27 +68,27 @@ function scan_for_trees( $move_right, $move_down, $debug = false )
 $total_trees = 1;
 
 // Scan for Right 1, down 1.
-$nb_trees = scan_for_trees( 1, 1 );
+$nb_trees = scan_for_trees( 1, 1 ); // should be 2
 echo 'Scan [1,1] = '  . $nb_trees."\n";
 $total_trees *= $nb_trees;
 
 // Scan for Right 3, down 1.
-$nb_trees = scan_for_trees( 3, 1 );
+$nb_trees = scan_for_trees( 3, 1 ); // should be 7
 echo 'Scan [3,1] = '  . $nb_trees."\n";
 $total_trees *= $nb_trees;
 
 // Scan for Right 5, down 1.
-$nb_trees = scan_for_trees( 5, 1, true );
+$nb_trees = scan_for_trees( 5, 1 ); // should be 3
 echo 'Scan [5,1] = '  . $nb_trees."\n";
 $total_trees *= $nb_trees;
 
 // Scan for Right 7, down 1.
-$nb_trees = scan_for_trees( 7, 1 );
+$nb_trees = scan_for_trees( 7, 1 ); // should be 4
 echo 'Scan [7,1] = '  . $nb_trees."\n";
 $total_trees *= $nb_trees;
 
 // Scan for Right 1, down 2.
-$nb_trees = scan_for_trees( 1, 2 );
+$nb_trees = scan_for_trees( 1, 2 ); // should be 2
 echo 'Scan [1,2] = '  . $nb_trees."\n";
 $total_trees *= $nb_trees;
 
