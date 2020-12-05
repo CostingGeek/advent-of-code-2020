@@ -1,5 +1,19 @@
 <?php
-$list = 'eyr:1972 cid:100
+$list = 'ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
+byr:1937 iyr:2017 cid:147 hgt:183cm
+
+iyr:2013 ecl:amb cid:350 eyr:2023 pid:028048884
+hcl:#cfa07d byr:1929
+
+hcl:#ae17e1 iyr:2013
+eyr:2024
+ecl:brn pid:760753108 byr:1931
+hgt:179cm
+
+hcl:#cfa07d eyr:2025 pid:166559648
+iyr:2011 ecl:brn hgt:59in
+
+eyr:1972 cid:100
 hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926
 
 iyr:2019
@@ -45,19 +59,22 @@ foreach( $list_array as $line )
     // break a clean line by white spaces
     $line = preg_replace( "/\r|\n/", "", $line );
     $line_array = explode(" ", $line);
-    
+    asort($line_array);
+
     // check each key against the list of valid keys
-    $req_nb = 0;
+    $req_nb = 0; $line_check = '';
     foreach( $line_array as $line_tmp ) 
     {
         $line_values = explode(":", $line_tmp);
         
+        // treat each rule separately
         switch( $line_values[0] )
         {
             case 'byr':
                 if( $line_values[1] >= 1920 
                  && $line_values[1] <= 2002 )
                 {
+                    $line_check .= $line_tmp . " ";    
                     $req_nb++;
                 }
                 break;
@@ -66,6 +83,7 @@ foreach( $list_array as $line )
                 if( $line_values[1] >= 2010 
                  && $line_values[1] <= 2020 )
                 {
+                    $line_check .= $line_tmp . " ";    
                     $req_nb++;
                 }
                 break;
@@ -74,6 +92,7 @@ foreach( $list_array as $line )
                 if( (int)$line_values[1] >= 2020 
                  && (int)$line_values[1] <= 2030 )
                 {
+                    $line_check .= $line_tmp . " ";    
                     $req_nb++;
                 }
                 break;
@@ -87,6 +106,7 @@ foreach( $list_array as $line )
                         if( $height >= 150 
                         && $height <= 193 )
                         {
+                            $line_check .= $line_tmp . " ";                                
                             $req_nb++;
                         }
                         break;
@@ -95,6 +115,7 @@ foreach( $list_array as $line )
                         if( $height >= 59 
                         && $height <= 76 )
                         {
+                            $line_check .= $line_tmp . " ";    
                             $req_nb++;
                         }
                         break;
@@ -107,6 +128,7 @@ foreach( $list_array as $line )
                 
                 if( preg_match("/[0-9a-f]{6}/", $value ) )
                 {
+                    $line_check .= $line_tmp . " ";        
                     $req_nb++;
                 }
                 break;
@@ -114,13 +136,16 @@ foreach( $list_array as $line )
             case 'ecl':
                 if( in_array($line_values[1],$ecl_array) )
                 {
+                    $line_check .= $line_tmp . " ";    
                     $req_nb++;
                 }
                 break;
                 
             case 'pid':
-                if( preg_match("/[0-9]{9}/", $line_values[1] ) )
+                if( preg_match("/[0-9]{9}/", $line_values[1] ) 
+                && strlen($line_values[1]) == 9 )
                 {
+                    $line_check .= $line_tmp . " ";    
                     $req_nb++;
                 }
                 break;
@@ -128,7 +153,7 @@ foreach( $list_array as $line )
     }
     
     // Test number of keys for fail / pass
-    echo $line.' => ';
+    echo $line_check." -> ";
     if( $req_nb >= $req_pass )
     {
         $tot_pass++;
