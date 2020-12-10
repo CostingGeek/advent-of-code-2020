@@ -40,9 +40,9 @@ foreach( $list_array as $line )
     $seat_array[] = $seat_id;
 }
 
-// identify highest seat ID
+// identify lowest / highest seat IDs
 rsort( $seat_array );
-
-echo 'The highest seat ID is ' . $seat_array[0];
+echo 'The lowest seat ID is ' . min($seat_array) . "\n";
+echo 'The highest seat ID is ' . max($seat_array) . "\n";
 
 ?>
