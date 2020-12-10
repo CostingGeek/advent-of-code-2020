@@ -27,6 +27,9 @@ foreach( $list_array as $key => $line )
     $list_array[$key] = (int)preg_replace( "/\r|\n/", "", $line );
 }
 
+// variables
+$pb_len = 5;
+
 // function to check a key against <$len> previous fields
 function check_sum( $list, $index, $len )
 {
@@ -60,6 +63,7 @@ function scan_sequence( $list, $index, $target )
 
         if( $tmp == $target )
         {
+            echo "Sum($index,$j) = $tmp \n";
             $found = $j;
             break;
         } elseif ( $tmp > $target ) {
@@ -69,9 +73,6 @@ function scan_sequence( $list, $index, $target )
     
     return $found;
 }
-
-// variables
-$pb_len = 5;
 
 // test each value after preamble
 for( $i = $pb_len; $i < count( $list_array ); $i++)
@@ -84,7 +85,7 @@ for( $i = $pb_len; $i < count( $list_array ); $i++)
 
 // return the invalid key
 $invalid = $list_array[$i];
-echo 'Invalid Key: '.$invalid." = ";
+echo 'Invalid Key  = '.$invalid." \n";
 
 // find sequence of invalid key
 for( $i = 0; $i < count($list_array); $i++ )
@@ -96,9 +97,10 @@ for( $i = 0; $i < count($list_array); $i++ )
     }
 }
 
-$list_tmp = array_slice( $list_array, $i, $scan - 1 );
-sort( $list_tmp );
+// filter out the valid sequence
+$list_tmp = array_slice( $list_array, $i, $scan - $i + 1 );
 
+// return output
 $out = '';
 foreach( $list_tmp as $line )
 {
@@ -106,10 +108,13 @@ foreach( $list_tmp as $line )
     {
         $out = $line;
     } else {
-        $out .= ' + '.$line;
+        $out .= "\n".$line;
     }
 }
 echo $out."\n";
+
+// find min / max
+sort( $list_tmp );
 echo 'Min: '.min($list_tmp)."\n";
 echo 'Max: '.max($list_tmp)."\n";
 echo 'Res: '.( min($list_tmp) + max($list_tmp) )."\n";
