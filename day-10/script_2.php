@@ -32,57 +32,32 @@ $list = '28
 3';
 
 // digest the list as array
-$list_array = explode("\n", $list);
-foreach( $list_array as $key => $line )
+$adapters = explode("\n", $list);
+foreach( $adapters as $key => $line )
 {
-    $list_array[$key] = (int)preg_replace( "/\r|\n/", "", $line );
+    $adapters[$key] = (int)preg_replace( "/\r|\n/", "", $line );
 }
-sort( $list_array );
+sort( $adapters );
 
-// parameters
-$seed = 0;
-$gap  = 3;
-$seq_list = array();
-$gap_list = array();
-$gap_list[1] = 0;
-$gap_list[2] = 0;
-$gap_list[3] = 0;
+$paths = [end($adapters)=>1];
+$values = array_flip($adapters)+[0=>1];
 
-// append outlet and device value
-//array_unshift( $list_array, 0 );
-$list_array[] = max($list_array) + 3;
-
-function build_sequence( $root, $seed, $count = 0  )
-{
-    global $list_array, $gap, $seq_list;
-
-    if( $count == count( $list_array ) )
-    {
-        $seq_list[] = $root;
-        return true;
-    }
-    
-    for( $i = $count; $i < count( $list_array ); $i++ )
-    {
-        if( $list_array[$i] > $seed + $gap )
-        {
-            return false;
-        } 
-        
-        build_sequence( $root.', '.$list_array[$i], $list_array[$i], $i + 1 );
-
-    }
-
-    return true;
+function get($i,$offset,$paths){
+  return $paths[$i+$offset] ?? 0;
 }
 
-// call the recursive function
-build_sequence( '0', $seed );
+for ($i = end($adapters) - 1; $i >= 0; $i--) {
+  if(isset($values[$i])){
+    $paths[$i] = array_reduce(
+      array_map(function($jump) use($i,$paths){
+        return get($i,$jump,$paths);
+      }, [1,2,3])
+    ,function($a,$b){
+      return $a+$b;
+    });
+  }
+}
 
 // return output
-echo "There are ".count( $seq_list )." combinations:\n";
-foreach( $seq_list as $seq )
-{
-    echo $seq."\n";
-}
+echo "Part 2: ". $paths[0];
 ?>
